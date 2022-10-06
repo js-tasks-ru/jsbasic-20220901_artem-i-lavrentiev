@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Styles go here */
 
 table, td {
@@ -23,4 +24,31 @@ thead {
 
 .unavailable td {
     border: 2px solid red;
+=======
+/* Styles go here */
+
+table, td {
+    border: 1px solid #cecece;
+    padding: 10px;
+}
+
+thead {
+    font-weight: 700;
+}
+
+.male td {
+    background-color: #65bff3;
+}
+
+.female td {
+    background-color: #932bb3;
+}
+
+.available td {
+    border: 2px solid green;
+}
+
+.unavailable td {
+    border: 2px solid red;
+>>>>>>> aa20ade7e926ed8e37e134273ec41471379bbbc0
 }
