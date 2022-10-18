@@ -78,4 +78,3 @@ export default class Carousel {
     `
   }
 }
-document.body.addEventListener('product-add',(e) => {console.log(e.detail);})
