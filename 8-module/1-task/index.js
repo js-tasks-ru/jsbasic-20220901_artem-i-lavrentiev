@@ -3,6 +3,7 @@ import createElement from '../../assets/lib/create-element.js';
 export default class CartIcon {
   constructor() {
     this.render();
+    this.initialTopCoord = null;
 
     this.addEventListeners();
   }
@@ -20,7 +21,8 @@ export default class CartIcon {
           <span class="cart-icon__count">${cart.getTotalCount()}</span>
           <span class="cart-icon__price">€${cart.getTotalPrice().toFixed(2)}</span>
         </div>`;
-
+      
+      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
       this.updatePosition();
 
       this.elem.classList.add('shake');
@@ -39,6 +41,18 @@ export default class CartIcon {
   }
 
   updatePosition() {
-    // ваш код ...
+    if (document.documentElement.clientWidth > 767) {
+      if (window.pageYOffset > this.initialTopCoord) {
+        this.elem.style.position = 'fixed';
+        this.elem.style.top = '50px';
+        let left = document.querySelector('.container').getBoundingClientRect().right + 20;
+        let right = document.documentElement.clientWidth - this.elem.offsetWidth - 10;
+        this.elem.style.left = Math.min(left, right) + 'px';
+      } else {
+        this.elem.style.position = 'absolute';
+        this.elem.style.top = '';
+        this.elem.style.left = '';
+      }
+    }
   }
 }
