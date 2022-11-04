@@ -15,7 +15,7 @@ export default class ProductGrid {
   }
 
   #generateFilter(product) {
-    if (this.noNuts && this.noNuts != product.nuts) {return false;}
+    if (this.noNuts && product.nuts) {return false;}
     if (this.vegeterianOnly && this.vegeterianOnly !== product.vegeterian) {return false;}
     if (this.maxSpiciness && this.maxSpiciness < product.spiciness) {return false;}
     if (this.category && product.category !== this.category) {return false;}
