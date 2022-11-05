@@ -6,20 +6,22 @@ export default class Cart {
   }
 
   addProduct(product) {
-    let cartItem = this.cartItems.find(item => item.product.id == product.id);
-    if (typeof cartItem == 'undefined') {
-      cartItem = {};
-      cartItem.product = product;
-      cartItem.count = 1;
-      this.cartItems.push(cartItem);
-    }
-    else {
-      this.cartItems.map(item => item.product.id == product.id ? item.count += 1 : item.count = item.count);
-    }
+    if (typeof product != 'undefined' && product != null && product.length != 0) {
+      let cartItem = this.cartItems.find(item => item.product.id == product.id);
+      if (typeof cartItem == 'undefined') {
+        cartItem = {};
+        cartItem.product = product;
+        cartItem.count = 1;
+        this.cartItems.push(cartItem);
+      }
+      else {
+        this.cartItems.map(item => item.product.id == product.id ? item.count += 1 : item.count = item.count);
+      }
 
-    cartItem = this.cartItems.find(item => item.product.id == product.id);
+      cartItem = this.cartItems.find(item => item.product.id == product.id);
 
-    this.onProductUpdate(cartItem);
+      this.onProductUpdate(cartItem);
+    }
   }
 
   updateProductCount(productId, amount) {
@@ -47,11 +49,11 @@ export default class Cart {
   }
 
   getTotalCount() {
-    return this.cartItems.forEach((totalCount, item) => totalCount + item.count);;
+    return this.cartItems.reduce((totalCount, item) => totalCount + item.count, 0);
   }
 
   getTotalPrice() {
-    return this.cartItems.reduce((totalPrice, item) => totalPrice + item.count * item.product.price;
+    return this.cartItems.reduce((totalPrice, item) => totalPrice + item.count * item.product.price, 0);
   }
 
   onProductUpdate(cartItem) {
