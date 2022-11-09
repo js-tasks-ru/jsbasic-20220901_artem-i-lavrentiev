@@ -134,15 +134,17 @@ export default class Cart {
     modalBody.append(this.renderOrderForm());
     this.modal.setBody(modalBody);
 
-    const productCountButtons = this.modal.elem.querySelectorAll('.cart-counter__button');
-    productCountButtons.forEach((button) => {
+    const buttonsMinus = this.modal.elem.querySelectorAll('.cart-counter__button_minus');
+    buttonsMinus.forEach((button) => {
       button.addEventListener('click', (e) => {
-        if (e.target.parentNode.classList.contains('cart-counter__button_minus')) {
           this.updateProductCount(e.target.closest('.cart-product').dataset.productId, -1)
-        }
-        else {
+      });
+    });
+
+    const buttonsPlus = this.modal.elem.querySelectorAll('.cart-counter__button_plus');
+    buttonsPlus.forEach((button) => {
+      button.addEventListener('click', (e) => {
           this.updateProductCount(e.target.closest('.cart-product').dataset.productId, 1)
-        }
       });
     });
 
