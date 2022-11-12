@@ -5,45 +5,43 @@ export default class ProductGrid {
   constructor(products) {
     this.products = products;
     this.filters = {};
-    this.render();
-  }
-
-  render() {
-    this.elem = createElement(`<div class="products-grid">
-      <div class="products-grid__inner"></div>
-    </div>`);
-
-    this.renderContent();
-  }
-
-  renderContent() {
-    this.sub('inner').innerHTML = '';
-
-    for (let product of this.products) {
-      if (this.filters.noNuts && product.nuts) {continue;}
-
-      if (this.filters.vegeterianOnly && !product.vegeterian) {continue;}
-
-      if (this.filters.maxSpiciness !== undefined && product.spiciness > this.filters.maxSpiciness) {
-        continue;
-      }
-
-      if (this.filters.category && product.category != this.filters.category) {
-        continue;
-      }
-
-      let card = new ProductCard(product);
-      this.sub("inner").append(card.elem);
-    }
+    this.#render();
   }
 
   updateFilter(filters) {
     Object.assign(this.filters, filters);
-    this.renderContent();
+    let filterProducts = this.products.filter(this.#generateFilter, this.filters);
+    this.#getProductGridInner(filterProducts);
   }
 
-  sub(ref) {
-    return this.elem.querySelector(`.products-grid__${ref}`);
+  #generateFilter(product) {
+    if (this.noNuts && product.nuts) {return false;}
+    if (this.vegeterianOnly && this.vegeterianOnly !== product.vegeterian) {return false;}
+    if (this.maxSpiciness && this.maxSpiciness < product.spiciness) {return false;}
+    if (this.category && product.category !== this.category) {return false;}
+    return true;
   }
 
+  #render() {
+    this.elem = createElement(this.#template());
+    this.#getProductGridInner(this.products);
+  }
+
+  #getProductGridInner(products) {
+    const gridInner = this.elem.querySelector('.products-grid__inner');
+    gridInner.innerHTML = '';
+    return products.forEach(product => {
+      let card = new ProductCard(product);
+      gridInner.append(card.elem);
+    });
+  }
+
+  #template() {
+    return `
+      <div class="products-grid">
+        <div class="products-grid__inner">
+        </div>
+      </div>
+    `
+  }
 }
